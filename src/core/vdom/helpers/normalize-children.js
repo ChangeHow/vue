@@ -26,7 +26,6 @@ export function simpleNormalizeChildren (children: any) {
 // 或是使用者手写的渲染函数或者JSX文件编译的组件中）在这种情况下就需要一个完整的
 // 序列化来尽可能完整的去适配所有可能类型的值
 export function normalizeChildren (children: any): ?Array<VNode> {
-  // 
   return isPrimitive(children)
     ? [createTextVNode(children)]
     : Array.isArray(children)
@@ -38,6 +37,7 @@ function isTextNode (node): boolean {
   return isDef(node) && isDef(node.text) && isFalse(node.isComment)
 }
 
+// TODO: read-later 在渲染阶段会被实际调用，到时候再来看
 function normalizeArrayChildren (children: any, nestedIndex?: string): Array<VNode> {
   const res = []
   let i, c, lastIndex, last

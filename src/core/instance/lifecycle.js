@@ -312,6 +312,9 @@ export function deactivateChildComponent (vm: Component, direct?: boolean) {
   }
 }
 
+// 调用钩子，这里会先判断该hook是否存在于用户定义的options中
+// 如果不存在，就调用emit函数，emit函数负责调用组件中用户申明
+// 的钩子
 export function callHook (vm: Component, hook: string) {
   // #7573 disable dep collection when invoking lifecycle hooks
   pushTarget()

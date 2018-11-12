@@ -142,11 +142,13 @@ export function defineReactive (
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
+  // 如果对象不可编辑啥也不做
   if (property && property.configurable === false) {
     return
   }
 
   // cater for pre-defined getter/setters
+  // 拿到对象原本具有的getter和setter
   const getter = property && property.get
   const setter = property && property.set
   if ((!getter || setter) && arguments.length === 2) {
