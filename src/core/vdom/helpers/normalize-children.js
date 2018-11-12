@@ -10,11 +10,9 @@ import { isFalse, isTrue, isDef, isUndef, isPrimitive } from 'shared/util'
 // generated render function is guaranteed to return Array<VNode>. There are
 // two cases where extra normalization is needed:
 
-// 1. When the children contains components - because a functional component
-// may return an Array instead of a single root. In this case, just a simple
-// normalization is needed - if any child is an Array, we flatten the whole
-// thing with Array.prototype.concat. It is guaranteed to be only 1-level deep
-// because functional components already normalize their own children.
+// 当节点包含组件的时候回调用这个函数，因为函数式组件会返回一个数组而不是一个
+// 单一的根节点，在这个情况下，就需要一个简单的序列化，如果任意一个子节点都是
+// 一个数组，我们将会使用concat API展平数组直到它最终的深度只有1层
 export function simpleNormalizeChildren (children: any) {
   for (let i = 0; i < children.length; i++) {
     if (Array.isArray(children[i])) {
@@ -24,11 +22,11 @@ export function simpleNormalizeChildren (children: any) {
   return children
 }
 
-// 2. When the children contains constructs that always generated nested Arrays,
-// e.g. <template>, <slot>, v-for, or when the children is provided by user
-// with hand-written render functions / JSX. In such cases a full normalization
-// is needed to cater to all possible types of children values.
+// 当子节点包含有内建的数组对象（这些情况，会出现在使用template, slot, v-for,
+// 或是使用者手写的渲染函数或者JSX文件编译的组件中）在这种情况下就需要一个完整的
+// 序列化来尽可能完整的去适配所有可能类型的值
 export function normalizeChildren (children: any): ?Array<VNode> {
+  // 
   return isPrimitive(children)
     ? [createTextVNode(children)]
     : Array.isArray(children)
